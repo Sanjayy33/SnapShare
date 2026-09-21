@@ -559,12 +559,6 @@ body {
     display: none;
 }
 
-.profile-img-btn {
-    display: flex;
-
-    gap: 10px;
-}
-
 
 
 .change-image-btn,
