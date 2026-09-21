@@ -49,7 +49,7 @@ A social media web application built with Django where users can share photos, f
 
 ### Search User
 
-![Create Search User](screenshots/search_user_profile.png)
+![Create Search User](screenshots/search_user_page.png)
 
 
 ## 🚀 Installation
