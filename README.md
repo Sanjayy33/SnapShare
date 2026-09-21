@@ -57,4 +57,4 @@ A social media web application built with Django where users can share photos, f
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
+git clone https://github.com/Sanjayy33/SnapShare.git
