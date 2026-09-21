@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{% static 'accounts/register.css' %}">
+</head>
+<body>
+
+    <h1>Register in SnapShare</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+         {% if error %}
+            <div class="error"><h4>{{error}}</h4></div>
+        {% endif %}
+
+        <div class="username">
+            <input type="text" name="username" placeholder="Username" required>
+        </div>
+        <div class="phone">
+            <input type="phone" name="phone" placeholder="Phone No" required>
+        </div>
+        <div class="email">
+            <input type="email" name="email" placeholder="Email ID" required>
+        </div>
+        <div class="password1">
+            <input type="Password" name="password1" placeholder="Password" required>
+        </div>
+        <div class="password2">
+            <input type="Password" name="password2" placeholder="Confirm Password" required>
+        </div>
+
+        <button type='submit'>Register</button>
+
+        <p>Alredy have an account, so <a href="{% url 'login' %}">Login</a></p>
+
+       
+    </form>
+
+
+    
+</body>
+</html>

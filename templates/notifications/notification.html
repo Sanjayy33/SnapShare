@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'notification/notification.css' %}" />
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="box">
+    <h2>Notifications</h2>
+
+    <div class="notifications-box">
+
+
+        {% for notification in notifications %}
+        <div class="notify">
+            <div class="msg">
+                <div class="username-notfy">
+                <a href="#">@{{notification.sender.username}}</a>
+            </div>
+            <div class="notify-msg">
+                {% if notification.notification_type == 'like' %}
+                    <p>like your Snap <i class="fa-solid fa-heart"></i></p>
+                {% elif notification.notification_type == 'comment' %}
+                    <p>commented on your Snap <i class="fa-solid fa-comment"></i></p>
+                {% elif notification.notification_type == 'follow' %}
+                    <p>started following you <i class="fa-solid fa-user"></i></p>
+                {% elif notification.notification_type == 'save' %}
+                    <p> saved your Snap <i class="fa-solid fa-bookmark"></i></p>
+
+                {% endif %}
+                <small>
+                {{ notification.create_at|timesince }} ago
+                </small>
+            </div>
+        </div>
+        {% if notification.posts.image.url %}
+            <div class="img">
+                <img src="{{notification.posts.image.url}}" alt="">
+            </div>
+            {%endif%}
+        </div>
+
+        {% empty %}
+        <p>no notification yet.</p>
+        {% endfor %}
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+
+

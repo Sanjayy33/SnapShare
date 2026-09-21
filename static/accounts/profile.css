@@ -1,0 +1,721 @@
+* {
+    box-sizing: border-box;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: rgb(81, 81, 81);
+    overflow: hidden;
+}
+
+
+
+.body {
+    width: 100%;
+    height: calc(100vh - 56px);
+
+    display: flex;
+    flex-direction: row;
+
+    overflow: hidden;
+}
+
+
+
+.left {
+    width: 25%;
+    height: 100%;
+
+    flex-shrink: 0;
+
+    background-color: rgba(
+        var(--bs-tertiary-bg-rgb),
+        var(--bs-bg-opacity)
+    );
+
+    border: 0.5px solid gray;
+    overflow-y: auto;
+}
+
+.left .top-profile {
+    width: 100%;
+    min-height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 25px 15px;
+}
+
+
+
+.top-profile .profile-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-profile .profile-img img {
+    width: 180px;
+    height: 180px;
+
+    object-fit: cover;
+
+    border-radius: 15px;
+    border: 1px solid gray;
+}
+
+
+
+.top-profile .profile-name {
+    margin-top: 12px;
+
+    font-size: 26px;
+    font-weight: 600;
+
+    text-align: center;
+
+    color: rgb(60, 60, 60);
+}
+
+
+
+.top-profile .profile-follow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 50px;
+
+    margin-top: 15px;
+}
+
+.top-profile .profile-follow .inside-follower,
+.top-profile .profile-follow .inside-following {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+
+    cursor: pointer;
+
+    transition: color 0.2s ease;
+}
+
+.top-profile .profile-follow .inside-follower:hover,
+.top-profile .profile-follow .inside-following:hover {
+    color: black;
+}
+
+.inside-follower span,
+.inside-following span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+.top-profile .bio {
+    width: 90%;
+    max-width: 400px;
+
+    padding: 10px 12px;
+
+    margin-top: 20px;
+
+    background-color: rgb(219, 218, 218);
+
+    border: 1px solid #aaa;
+    border-radius: 7px;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+}
+
+
+
+.bottom-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 35px;
+}
+
+.bottom-btn .profileimgbtn {
+    width: 150px;
+
+    font-size: 17px;
+}
+
+.top-profile .followbtn {
+    font-size: 17px;
+}
+
+
+.right {
+    width: 75%;
+    height: 100%;
+
+    background-color: whitesmoke;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: flex-start;
+    align-items: center;
+
+    border: 0.5px solid gray;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding: 15px 20px;
+}
+
+
+
+.right .post-card {
+    width: min(100%, 1000px);
+
+    height: 400px;
+    min-height: 400px;
+
+    margin: 10px 0;
+
+    display: flex;
+
+    background-color: white;
+
+    border: 1px solid #bbb;
+    border-radius: 8px;
+
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+
+
+
+.right .post-card .post {
+    width: 65%;
+    height: 100%;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+}
+
+
+
+.right .post-card .post .top-bar {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 8px 12px;
+
+    flex-shrink: 0;
+
+    border-bottom: 1px solid #eee;
+}
+
+.post .top-bar .username {
+    font-size: 20px;
+    font-weight: 600;
+
+    color: #333;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.post .top-bar .time-date {
+    font-size: 14px;
+
+    color: #777;
+
+    white-space: nowrap;
+}
+
+
+
+.post .img {
+    width: calc(100% - 22px);
+
+    flex: 1;
+
+    min-height: 0;
+
+    margin: 5px 11px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+.post .img img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    border: 1.5px solid gray;
+    border-radius: 5px;
+
+    background-color: #f5f5f5;
+}
+
+
+
+.post .caption {
+    width: 100%;
+    min-height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-shrink: 0;
+
+    border-top: 1px solid #eee;
+}
+
+.post .caption p {
+    width: 85%;
+
+    margin: 0;
+
+    padding: 8px 12px;
+
+    line-height: 1.4;
+
+    word-break: break-word;
+}
+
+
+.like-save {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding-right: 8px;
+
+    font-size: 20px;
+}
+
+.caption .like-save a {
+    text-decoration: none;
+    transition: transform 0.15s ease;
+}
+
+.caption .like-save a:hover {
+    transform: scale(1.1);
+}
+
+
+
+.like-save .right-like-btn i {
+    color: red;
+}
+
+
+
+.like-save .right-unlike-btn {
+    color: gray;
+}
+
+
+
+.like-save .right-unsave-btn {
+    color: gray;
+}
+
+
+
+.like-save .right-save-btn i {
+    color: green;
+}
+
+
+
+.comments-right {
+    width: 35%;
+    height: 100%;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background-color: white;
+
+    border-left: 1px solid gray;
+}
+
+
+
+.all-comments {
+    flex: 1;
+
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.all-comments .comments-list-right {
+    width: 100%;
+    height: 100%;
+
+    overflow-y: auto;
+}
+
+
+
+.comments-right .one-comment-right {
+    width: auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 8px;
+
+    margin: 5px;
+
+    padding: 7px;
+
+    background-color: whitesmoke;
+    color: rgb(81, 81, 81);
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.one-username-comment {
+    display: flex;
+
+    gap: 4px;
+
+    min-width: 0;
+
+    word-break: break-word;
+}
+
+
+
+.cancle-comment a {
+    color: #777;
+
+    text-decoration: none;
+
+    padding: 5px;
+
+    transition: color 0.2s ease;
+}
+
+.cancle-comment a:hover {
+    color: red;
+}
+
+
+.comment-send-btn-right {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    border-top: 1px solid gray;
+
+    flex-shrink: 0;
+}
+
+.comment-send-btn-right .comment-input-right {
+    width: 80%;
+
+    border: none;
+    outline: none;
+
+    padding: 10px 8px;
+
+    background-color: whitesmoke;
+
+    font-size: 15px;
+}
+
+.comment-send-btn-right .comment-input-right:focus {
+    background-color: white;
+}
+
+
+
+.comment-send-btn-right button {
+    width: 20%;
+
+    border: none;
+    border-radius: 0;
+
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+
+
+.profile-modal {
+    width: 95%;
+    max-width: 500px;
+}
+
+.profile-modal .modal-content {
+    border: none;
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background-color: white;
+}
+
+
+
+.profile-modal .modal-header {
+    padding: 18px 20px;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.profile-modal .modal-title {
+    font-size: 21px;
+    font-weight: 600;
+
+    color: #222;
+}
+
+
+
+.profile-modal-body {
+    padding: 25px;
+}
+
+
+
+.profile-image-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    margin-bottom: 25px;
+}
+
+.profile-preview {
+    width: 100px;
+    height: 100px;
+
+    margin-bottom: 12px;
+
+    overflow: hidden;
+
+    border: 2px solid #ddd;
+    border-radius: 50%;
+}
+
+.profile-preview img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.change-prf-img {
+    display: none;
+}
+
+.profile-img-btn {
+    display: flex;
+
+    gap: 10px;
+}
+
+
+
+.change-image-btn,
+.remove-image-btn {
+    padding: 7px 14px;
+
+    border-radius: 6px;
+
+    background-color: #f1f1f1;
+
+    color: #333;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.change-image-btn:hover,
+.remove-image-btn:hover {
+    background-color: #ddd;
+
+    transform: translateY(-1px);
+}
+
+
+
+.profile-field {
+    margin-bottom: 18px;
+}
+
+.profile-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #333;
+}
+
+.change-username,
+.bio-tab {
+    width: 100%;
+
+    padding: 10px 12px;
+
+    border: 1px solid #ccc;
+    border-radius: 7px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    background-color: #fafafa;
+
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.change-username:focus,
+.bio-tab:focus {
+    border-color: #0d6efd;
+
+    background-color: white;
+
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.1);
+}
+
+
+
+.bio-tab {
+    height: 110px;
+
+    resize: vertical;
+
+    font-family: inherit;
+}
+
+
+
+.profile-field small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+
+
+.profile-modal-footer {
+    padding: 15px 20px;
+
+    display: flex;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    border-top: 1px solid #e5e5e5;
+}
+
+.profile-modal-footer button {
+    padding: 8px 18px;
+
+    border-radius: 7px;
+}
+
+
+
+.update-profile-btn {
+    border: none;
+
+    transition: transform 0.2s ease;
+}
+
+.update-profile-btn:hover {
+    transform: translateY(-1px);
+}
+
+
+
+.modal-backdrop.show {
+    opacity: 0.65;
+}
+
+
+
+.follower-model-body a {
+    text-decoration: none;
+}
+
+.follower-model-body a p {
+    margin-top: 15px;
+
+    font-size: 21px;
+
+    color: rgb(89, 88, 88);
+
+    transition: color 0.2s ease;
+}
+
+.follower-model-body a p:hover {
+    color: black;
+}
+

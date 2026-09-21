@@ -1,0 +1,42 @@
+.search-page {
+    width: 700px;
+    max-width: 95%;
+    margin: 30px auto;
+}
+
+.search-page h2 {
+    margin-bottom: 10px;
+}
+
+.user-list {
+    margin-top: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 15px;
+
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.user-card a {
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    background-color: #111;
+    color: white;
+}

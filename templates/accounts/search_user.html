@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'accounts/search_user.css' %}" />
+
+{% endblock %}
+{% block content %}
+
+<div class="search-page">
+
+    <h2>Search Users</h2>
+
+    {% if query %}
+        <p>Results for "{{ query }}"</p>
+    {% endif %}
+
+    <div class="user-list">
+
+        {% for user in users %}
+
+            <div class="user-card">
+
+                <div class="user-info">
+                    <div class="username">
+                        @{{ user.username }}
+                    </div>
+                </div>
+
+                <a href="{% url 'profile' user.id %}">
+                    View Profile
+                </a>
+
+            </div>
+
+        {% empty %}
+
+            {% if query %}
+                <p>No users found.</p>
+            {% else %}
+                <p>Search for a username.</p>
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

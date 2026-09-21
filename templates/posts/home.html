@@ -1,0 +1,296 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'posts/home.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="body" >
+
+    {% if posts %}
+
+        {% for post in posts %}
+
+
+        <div class="mycard">
+
+
+            <div class="box1">
+
+
+
+                <div class="profile_name">
+
+                    <div class="icon">
+
+                        <p>@</p>
+
+                        <h5>
+                            <a href="{% url 'profile' post.user.id %}">
+                                {{ post.user.username }}
+                            </a>
+                        </h5>
+
+
+
+                        {% if user != post.user %}
+
+                            {% if post.user.id in following_user_ids %}
+
+                                <a
+                                    href="{% url 'follow_unfollow' post.user.id %}?next={% url 'home' %}"
+                                    class="btn btn-danger follow-btn"
+                                >
+                                    Unfollow
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'follow_unfollow' post.user.id %}?next={% url 'home' %}"
+                                    class="btn btn-primary follow-btn"
+                                >
+                                    Follow
+                                </a>
+
+                            {% endif %}
+
+                        {% else %}
+
+                            <div class="yourpost-btn">
+                                <a href="{% url 'delete_post' post.id%}?next={% url 'home' %}" class="btn btn-danger">delete Snap</a>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <div class="date-time">
+                        <p>{{ post.created_at }}</p>
+                    </div>
+
+                </div>
+
+
+
+                <div class="user_image">
+
+                    {% if post.image %}
+
+                        <img
+                            src="{{ post.image.url }}"
+                            alt="Post Image"
+                        >
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="img-bottom">
+
+
+                    <div class="user-caption">
+
+                        <p>
+                            {{ post.caption }}
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="bottom">
+
+
+
+                        <div class="home-post-lu">
+
+                            {% if post.is_liked %}
+
+                                <a
+                                    href="{% url 'like_post' post.id %}"
+                                    class="like-btn"
+                                >
+                                    <i class="fa-solid fa-heart"></i>
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'like_post' post.id %}"
+                                    class="unlike-btn"
+                                >
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
+
+                            {% endif %}
+
+
+
+                            <span>
+                                {{ post.likes.count }}
+                            </span>
+
+                        </div>
+
+
+
+                        <div class="home-post-su">
+
+                            {% if post.is_saved %}
+
+                                <a
+                                    href="{% url 'save_post' post.id %}"
+                                    class="save-btn"
+                                >
+                                    <i class="fa-solid fa-bookmark"></i>
+                                </a>
+
+                            {% else %}
+
+                                <a
+                                    href="{% url 'save_post' post.id %}"
+                                    class="unsave-btn"
+                                >
+                                    <i class="fa-regular fa-bookmark"></i>
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="box2">
+
+
+
+                <div class="comments">
+
+                    {% for comment in post.comments.all %}
+
+                        <div class="one-comment">
+
+
+
+                            <div class="inside-comment">
+
+                                <div class="username-comment">
+                                    @<strong>
+                                        {{ comment.user.username }}
+                                    </strong>
+                                </div>
+
+                                <div class="user-comment">
+                                    {{ comment.text }}
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="cancle-comment">
+
+                                {% if comment.user == request.user %}
+
+                                    <a
+                                        href="{% url 'delete_comment' comment.id %}"
+                                        class="delete_comment"
+                                    >
+                                        <i class="fa-solid fa-circle-xmark"></i>
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+
+                    {% empty %}
+
+
+                        <div class="one-comment">
+
+                            <div class="user-comment">
+                                No comments yet.
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+
+            
+                <form
+                    method="POST"
+                    action="{% url 'add_comment' post.id %}"
+                    class="comment-send"
+                >
+
+                    {% csrf_token %}
+
+                    <input
+                        type="text"
+                        name="text"
+                        placeholder="Add comment"
+                        class="comment-input"
+                    >
+
+                    <button
+                        class="btn btn-success sendbtn"
+                        type="submit"
+                    >
+                        Send
+                    </button>
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+        {% endfor %}
+
+
+    {% else %}
+        <div class="nopost">
+
+            <h1>
+                Oops, No Snap Available!!
+            </h1>
+
+        </div>
+
+        <a
+            class="btn btn-outline-success"
+            href="{% url 'create_post'%}"
+        >
+            Start SnapShare with U
+        </a>
+
+    {% endif %}
+
+</div>
+
+
+
+{% endblock %}

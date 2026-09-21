@@ -1,0 +1,406 @@
+{% extends "base.html" %} {% load static %} {% block css %}
+<link rel="stylesheet" href="{% static 'accounts/profile.css' %}" />
+{% endblock %} {% block content %}
+
+<div class="body">
+  <div class="left">
+    <div class="top-profile">
+      <div class="profile-img">
+        {% if myprofile.profile_img.url %}
+        <img src="{{ myprofile.profile_img.url }}" alt="profile" />
+        {% else %}
+        <img src="{{ profile.profile_image.url }}" alt="profile" />
+        {% endif %}
+      </div>
+      <div class="profile-name">@{{user.username}}</div>
+      <div class="profile-follow">
+        <div class="inside-follower">
+        <span data-bs-toggle="modal"
+          data-bs-target="#followerModal">
+          followers
+          <span>{{profile.user.followers.count}}</span>
+        </span>
+          
+        </div>
+        <div class="inside-following">
+          <span data-bs-toggle="modal"
+          data-bs-target="#followingModal">
+          following
+           <span>{{profile.user.following.count}}</span>
+        </span>
+         
+        </div>
+      </div>
+      <div class="bio">
+        {% if profile.bio %}
+        <p>{{profile.bio}}</p>
+        {% else %}
+        <p>no bio add...</p>
+        {% endif %}
+      </div>
+      <div class="bottom-btn">
+        {% if request.user == profile.user %}
+        <button
+          class="btn btn-primary profileimgbtn"
+          data-bs-toggle="modal"
+          data-bs-target="#commentModal"
+        >
+          update profile
+        </button>
+        {% endif %}
+        {% if request.user != profile.user %} 
+            {% if profile.user.id in following_user_ids %}
+
+            <a
+            href="{% url 'follow_unfollow' profile.user.id %}?next={% url 'profile' profile.user.id %}"
+            class="btn btn-danger follow-btn"
+            >
+            unfollow
+            </a>
+
+            {% else %}
+
+            <a
+            href="{% url 'follow_unfollow' profile.user.id %}?next={% url 'profile' profile.user.id %}"
+            class="btn btn-primary follow-btn"
+            >
+            follow
+            </a>
+
+            {% endif %} 
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="right">
+    {% for post in posts %}
+    {% if post %} 
+    <div class="post-card">
+      <div class="post">
+        <div class="top-bar">
+          <div class="username">@{{post.user.username}}</div>
+          <div class="time-date">{{post.created_at}}</div>
+        </div>
+        <div class="img">
+          <img src="{{post.image.url}}" />
+        </div>
+        <div class="caption">
+          <p>{{post.caption}}</p>
+          <div class="like-save">
+            {% if post.is_liked %}
+
+            <a
+              href="{% url 'like_post' post.id %}?next={% url 'profile' profile.user.id %}"
+              class="right-like-btn"
+            >
+              <i class="fa-solid fa-heart"></i>
+            </a>
+
+            {% else %}
+
+            <a
+              href="{% url 'like_post' post.id %}?next={% url 'profile' profile.user.id %}"
+              class="right-unlike-btn"
+            >
+              <i class="fa-regular fa-heart"></i>
+            </a>
+
+            {% endif %}
+
+            <span>{{ post.likes.count }}</span>
+            {% if post.is_saved %}
+
+            <a
+              href="{% url 'save_post' post.id %}?next={% url 'profile' profile.user.id %}"
+              class="right-save-btn"
+            >
+              <i class="fa-solid fa-bookmark"></i>
+            </a>
+
+            {% else %}
+
+            <a
+              href="{% url 'save_post' post.id %}?next={% url 'profile' profile.user.id %}"
+              class="right-unsave-btn"
+            >
+              <i class="fa-regular fa-bookmark"></i>
+            </a>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="comments-right">
+        <div class="all-comments">
+          {% for comment in post.comments.all %}
+          <div class="one-comment-right">
+            <div class="inside-comment">
+              <div class="one-username-comment">
+                <div class="username-comment-right">@<strong>{{comment.user.username}}</strong></div>
+              </div>
+            <div class="user-comment-right"><span>{{comment.text}}</span></div>
+            </div>
+            <div class="cancle-comment">
+              {% if comment.user == request.user %}
+              <a href="{% url 'delete_comment' comment.id%}?next={% url 'profile' profile.user.id %}" class="delete_comment">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+          {% empty %}
+          <div class="one-comment-right">
+            <div class="user-comment-right"><span>:no comments</span></div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <form
+          method="POST"
+          class="comment-send-btn-right"
+          action="{% url 'add_comment' post.id %}?next={% url 'profile' profile.user.id %}"
+        >
+          {% csrf_token %}
+          <input
+            type="text"
+            name="text"
+            placeholder="add comment"
+            class="comment-input-right"
+          />
+          <button class="btn btn-success sendbtn-right" type="submit">
+            send
+          </button>
+        </form>
+      </div>
+    </div>
+    
+    
+    
+    {% endif %}
+
+    {% empty %}
+
+    <div class="nopost mt-5">
+      <h1>oops, No Snap Available!!</h1>
+    </div>
+    
+    <a class="btn btn-outline-success" href="{% url 'create_post' %}">Start SnapShare with U</a>
+    
+
+    {% endfor %}
+  </div>
+
+
+<div
+    class="modal fade snap-modal"
+    id="followerModal"
+    tabindex="-1"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">followers</h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+            </div>
+
+            <div class="modal-body follower-model-body">
+                {% for follower in profile.user.followers.all  %}
+                  <a href="{% url 'profile' follower.follower.id %}"><p>@{{follower.follower.username}}</p></a>
+                {% empty %}
+                <p>no follower yet.</p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div
+    class="modal fade snap-modal"
+    id="followingModal"
+    tabindex="-1"
+>
+    <div class="modal-dialog modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">following</h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+            </div>
+
+            <div class="modal-body follower-model-body">
+                {% for following in profile.user.following.all  %}
+                  <a href="{% url 'profile' following.following.id %}"><p>@{{following.following.username}}</p></a>
+                {% empty %}
+                <p>no follower yet.</p>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+ <div class="modal fade" id="commentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered profile-modal">
+        <div class="modal-content">
+
+            <form method="POST"
+                  action="{% url 'update_profile' %}"
+                  enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                <!-- Header -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Profile</h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="modal-body profile-modal-body">
+
+                    <!-- Profile Image -->
+                    <div class="profile-image-section">
+
+                        <div class="profile-preview">
+                            <img
+                                id="profilePreview"
+                                src="{{ profile.profile_image.url }}"
+                                alt="Profile">
+                        </div>
+
+                        <div class="profile-img-btn">
+                            <label
+                            for="changeProfileImage"
+                            class="change-image-btn">
+                            Change Profile Photo
+                        </label>
+
+                        <label
+                            for="changeProfileImage"
+                            class="remove-image-btn">
+                            Remove Profile Photo
+                        </label>
+                        </div>
+
+                        <input
+                            type="file"
+                            id="changeProfileImage"
+                            name="profile_image"
+                            class="change-prf-img"
+                            accept="image/*">
+                    </div>
+
+
+                    <!-- Username -->
+                    <div class="profile-field">
+
+                        <label for="changeUsername">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            id="changeUsername"
+                            name="username"
+                            class="change-username"
+                            placeholder="Change username"
+                            value="{{ profile.user.username }}">
+                    </div>
+
+
+                    <!-- Bio -->
+                    <div class="profile-field">
+
+                        <label for="bioTab">
+                            Bio
+                        </label>
+
+                        <textarea
+                            id="bioTab"
+                            name="bio"
+                            class="bio-tab"
+                            maxlength="300"
+                            placeholder="Write something about yourself...">{{ profile.bio }}</textarea>
+
+                        <small>Maximum 300 characters</small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Footer -->
+                <div class="modal-footer profile-modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary update-profile-btn">
+                        Update
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const imageInput = document.getElementById("changeProfileImage");
+    const profilePreview = document.getElementById("profilePreview");
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            profilePreview.src = URL.createObjectURL(file);
+        }
+
+    });
+</script>
+
+  {% endblock %}
+</div>

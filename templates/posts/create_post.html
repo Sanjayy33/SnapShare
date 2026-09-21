@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'posts/create_post.css' %}" />
+
+{% endblock %}
+{% block content %}
+
+<div class="body">
+
+    <h3>share Snap with your friendsss</h3>
+
+    <form method="POST" action="{% url 'create_post' %}" class="post-form"  enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="post-img">
+            <div class="image-preview">
+                <img id="ImagePreview" src="" alt="Image Preview">
+            </div>
+            <div class="profile-img-btn">
+                <label
+                    for="changeProfileImage"
+                    class="btn btn-primary change-image-btn">
+                    choose image for Snap
+                </label>
+
+            <input
+                    type="file"
+                    id="changeProfileImage"
+                    name="image"
+                    class="change-prf-img"
+                    accept="image/*">
+            </div>
+            </div>
+
+        <textarea name="caption" class="create-post-caption" placeholder="add caption about your Snap" maxlength="300"></textarea>
+
+        <button type="submit" class="btn btn-success create-post-btn">Snap</button>
+
+
+    </form>
+
+</div>
+
+<script>
+    const imageInput = document.getElementById("changeProfileImage");
+    const profilePreview = document.getElementById("ImagePreview");
+
+    imageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            profilePreview.src = URL.createObjectURL(file);
+            profilePreview.style.display = "block";
+        }
+
+    });
+</script> 
+
+{% endblock %}
